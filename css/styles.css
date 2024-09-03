@@ -28,15 +28,17 @@ header {
 }
 
 .logo {
-    height: 50px; /* Adjust height to fit your design */
-    margin-right: 20px; /* Space between logo and text */
+    height: 50px;
+    margin-right: 20px;
+    cursor: pointer;
 }
 
 .header-container h1 {
     margin: 0;
     font-size: 28px;
     font-weight: 700;
-    flex: 1; /* Allow h1 to take remaining space */
+    flex: 1;
+    color: white;
 }
 
 nav {
@@ -74,13 +76,14 @@ main {
     max-width: 1200px;
     margin: 0 auto;
     text-align: center;
-    background-color: #fff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
 }
 
-.dropdown-section {
-    margin-top: 40px;
+.section {
+    display: none; /* Hide all sections by default */
+}
+
+#home {
+    display: block; /* Show the Home section by default */
 }
 
 .dropdown-container {
@@ -94,10 +97,10 @@ select {
     padding: 12px 15px;
     font-size: 16px;
     font-family: 'Lato', sans-serif;
-    border: 2px solid #000;
+    border: 2px solid #ddd;
     border-radius: 8px;
     outline: none;
-    background-color: #f9f9f9;
+    background-color: #f5f5f5;
     color: #333;
     transition: all 0.3s ease;
     appearance: none;
@@ -107,12 +110,12 @@ select {
 }
 
 select:focus {
-    border-color: #000;
     box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
 }
 
 select:hover {
     background-color: #e0e0e0;
+    color: #333;
 }
 
 select::after {
@@ -125,9 +128,115 @@ select::after {
     color: #333;
 }
 
+.content-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.constituency-list,
+.dataset-container {
+    display: none; /* Initially hidden */
+    background-color: #f5f5f5;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.constituency-list {
+    width: 200px;
+}
+
+.dataset-container {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.constituency-box {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.constituency-box li {
+    margin: 5px 0;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.constituency-box li:hover {
+    background-color: #ddd;
+}
+
+/* About Us Section Styling */
+#about {
+    display: none; /* Hide by default */
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: left;
+    color: #333;
+    font-size: 16px;
+}
+
+#about h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #000;
+    text-align: center; /* Center the heading */
+}
+
+#about p {
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+#about ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+#about ul li {
+    margin-bottom: 10px;
+}
+
+#about strong {
+    font-weight: 700;
+    color: #333;
+}
+
+#about .highlight {
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-left: 4px solid #333;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+/* Add a subtle animation to the section appearance */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#about {
+    animation: fadeIn 0.6s ease-out;
+}
+
 footer {
     background-color: #000;
-    color: white;
+    color: #fff;
     text-align: center;
     padding: 15px 0;
     margin-top: 40px;
