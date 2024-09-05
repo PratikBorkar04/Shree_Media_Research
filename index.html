@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
     <title>Shree Media Research and Analysis</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
     <!-- Header Section -->
@@ -15,7 +16,7 @@
             <nav>
                 <ul class="nav-links">
                     <li><a href="#home" id="home-link" onclick="showSection('home')">Home</a></li>
-                    <li><a href="#about " onclick="showSection('about')">About Us</a></li>
+                    <li><a href="#about" onclick="showSection('about')">About Us</a></li>
                     <li><a href="#services" onclick="showSection('services')">Services</a></li>
                     <li><a href="#contact" onclick="showSection('contact')">Contact</a></li>
                 </ul>
@@ -27,6 +28,9 @@
     <main>
         <!-- Home Section -->
         <section id="home" class="section">
+            <!-- Success Rate Graph Section -->
+            <div id="success-rate-graph" style="width:100%; height:400px;"></div>
+
             <div class="dropdown-container">
                 <select name="loksabha" id="loksabha" onchange="showConstituencies()">
                     <option value="" disabled selected>Select Loksabha</option>
@@ -51,18 +55,16 @@
             </div>
 
             <div class="content-container">
+                <!-- Constituency List -->
                 <div id="constituency-list" class="constituency-list">
                     <!-- Constituency list will appear here -->
                 </div>
 
-                <div class="dataset-container">
-                    <!-- Dataset options will appear here -->
-                </div>
             </div>
         </section>
 
         <!-- About Section -->
-        <section id="about">
+        <section id="about" class="section" style="display: none;">
             <h2>About Us</h2>
             <p>Shree Media Research & Survey is engaged in a wide range of activities since 1995.</p>
             <p>The range encompasses conducting opinion polls, feedback surveys, critical analysis of high profile politicians, and many other political services.</p>
@@ -78,13 +80,37 @@
         </section>
         
         <!-- Services Section -->
-        <section id="services" class="section">
-            <!-- Content for Services -->
+        <section id="services" class="section" style="display: none;">
+            <h2>Our Services</h2>
+            <div class="service">
+                <h3>Random Survey</h3>
+                <p>We cover major areas in your constituency and take the pulse of voters. The major areas like taluka panchayat, nagarpanchayat, or wards are covered in this survey.</p>
+            </div>
+            <div class="service">
+                <h3>Deep Steek</h3>
+                <p>Each and every part of your constituency is covered. We'll give you exact feedback of your current position which indeed will help you in deciding the strategy.</p>
+            </div>
+            <div class="service">
+                <h3>Monitoring</h3>
+                <p>Our representatives will constantly be in touch with voters for 15 - 30 days and will give you daily updates on the constituency's political scenario.</p>
+            </div>
+            <div class="service">
+                <h3>Personality Development</h3>
+                <p>We will study and examine the constituency in depth and will consult you regarding your position, opposition's current status, political status of the constituency, and how you can make your next move land in an appropriate manner.</p>
+            </div>
+            <div class="service">
+                <h3>Whisper Campaign</h3>
+                <p>Our trained representatives will be in your constituency a few days before the election and will spread positive points for you and negative points about your opposition, which will help to set a trend in your favor.</p>
+            </div>
         </section>
         
-        <!-- Contact Section -->
         <section id="contact" class="section">
-            <!-- Content for Contact -->
+            <h2>Contact Us</h2>
+            <div class="contact-info">
+                <p><strong>Location:</strong> 96-B, Kamgar Nagar, Kurla (E), Mumbai</p>
+                <p><strong>Email:</strong> <a href="mailto:shreemediaresearch@gmail.com">shreemediaresearch@gmail.com</a></p>
+                <p><strong>Call:</strong> <a href="tel:+918888295555">+91 8888295555</a>   <a href="tel:+919822653509">+91 9822653509</a></p>
+            </div>
         </section>
     </main>
 
@@ -107,9 +133,7 @@
         function showConstituencies() {
             const loksabha = document.getElementById('loksabha').value;
             const constituencyList = document.getElementById('constituency-list');
-            const datasetContainer = document.querySelector('.dataset-container');
             constituencyList.innerHTML = ''; // Clear previous list
-            datasetContainer.innerHTML = ''; // Clear previous datasets
             
             if (loksabha === 'Maharashtra') {
                 const constituencies = [
@@ -126,29 +150,55 @@
                 constituencies.forEach(function(constituency) {
                     const li = document.createElement('li');
                     li.textContent = constituency;
+                    li.onclick = function() { visualizeDataset(constituency); };
                     ul.appendChild(li);
                 });
                 constituencyList.appendChild(ul);
-
-                // Example dataset content
-                datasetContainer.innerHTML = '<p>Select a dataset from the list to view more details.</p>';
-                datasetContainer.style.display = 'block';
+                constituencyList.style.display = 'block';
             } else {
-                constituencyList.style.display = 'none';
-                datasetContainer.style.display = 'none';
+                constituencyList.innerHTML = '<p>No constituencies available for the selected state.</p>';
             }
         }
-        function refreshPage() {
-        window.location.reload();
+
+        function visualizeDataset(constituency) {
+            const datasetContainer = document.querySelector('.dataset-container');
+            datasetContainer.innerHTML = `<p>Displaying data for <strong>${constituency}</strong>.</p>`;
         }
 
         // Add event listener to the "Home" link
         document.getElementById('home-link').addEventListener('click', function(event) {
             event.preventDefault(); // Prevent default link behavior
-            refreshPage(); // Call the refresh function
+            window.location.reload(); // Call the refresh function
         });
+
         // Show the Home section by default
         showSection('home');
+
+        // Data for the graph
+        var data = [{
+            type: 'bar',
+            x: ['Maharashtra', 'Karnataka', 'Goa', 'Madhya Pradesh', 'Chhattisgarh', 'Rajasthan', 'Tamil Nadu', 'Haryana', 'Gujarat', 'Telangana'],
+            y: [92, 91, 93, 90, 90, 92, 94, 90, 93, 91],
+            marker: {
+                color: 'rgba(50,171,96,0.7)',
+                line: {
+                    color: 'rgba(50,171,96,1.0)',
+                    width: 2
+                }
+            }
+        }];
+
+        var layout = {
+            title: 'Political Survey Success Rate by State',
+            xaxis: {title: 'States'},
+            yaxis: {title: 'Success Rate (%)'},
+            plot_bgcolor: 'rgba(240, 240, 240, 0.95)',
+            paper_bgcolor: 'rgba(240, 240, 240, 0.95)',
+            margin: {t: 40, r: 20, b: 40, l: 50}
+        };
+
+        // Render the graph
+        Plotly.newPlot('success-rate-graph', data, layout);
     </script>
 </body>
 </html>
